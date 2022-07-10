@@ -19,14 +19,11 @@
 
 AQS框架提供了一些模板方法为使用者屏蔽了底层同步状态管理，线程在队列中的排队，等待和唤醒等底层操作
 
-| 方法                                                        | 功能                                                         |
-| ----------------------------------------------------------- | ------------------------------------------------------------ |
-| acquire() : void                                            | 独占式获取锁，该方法将会调用重写的tryAcquire()方法，如果成功获取锁则返回，失败则线程进入同步等待队列 |
-| acquireInterruptibly(int arg) : void                        | 独占式获取锁，但是该方法可以响应中断                         |
-<<<<<<< HEAD
-| tryAcquireNanos(int arg, long nanosTimeout) : boolean       | 独占式超时获取锁且能够响应中断，若在指定时间内获取锁失败则返回false |
-=======
-| tryAcquireNanos(int arg, long nanosTimeout) : boolean       | 独占式超时获取锁且能够相应中断，若在指定时间内获取锁失败则返回false |
+| 方法                                                  | 功能                                                         |
+| ----------------------------------------------------- | ------------------------------------------------------------ |
+| acquire() : void                                      | 独占式获取锁，该方法将会调用重写的tryAcquire()方法，如果成功获取锁则返回，失败则线程进入同步等待队列 |
+| acquireInterruptibly(int arg) : void                  | 独占式获取锁，但是该方法可以响应中断                         |
+| tryAcquireNanos(int arg, long nanosTimeout) : boolean | 独占式超时获取锁且能够相应中断，若在指定时间内获取锁失败则返回false |
 >>>>>>> 6597f94c8945c5169006f47163d9d4abcb8cf8de
 | acquireShared(int arg)                                      | 共享式获取锁，与独占式的区别为共享式允许同一时间可以有多个线程获取到锁 |
 | acquireSharedInterruptibly(int arg) : void                  | 共享式获取锁，且响应中断                                     |
@@ -52,19 +49,11 @@ acquire方法首先调用tryAcquire方法获取锁，如果失败则调用addWai
 
 ##### int waitStatus:
 
-<<<<<<< HEAD
-CANCELLED：值为1，表示线程等待超时或者被中断，需要从同步队列中取消等待
-
-SIGNAL ：值为-1。后继节点处于等待状态，当前节点（为-1）被取消或者中断时会通知后继节点，使后继节点的线程得以运行
-
-CONDITION ：值为-2.当前节点处于等待队列，节点线程等待在Condition上，当其他线程对condition执行signall方法时，等待队列转移到同步队列，加入到对同步状态的获取
-=======
 CANCELLED值为1，表示线程等待超时或者被中断，需要从同步队列中取消等待
 
 SIGNAL :值为-1。后继节点处于等待状态，当前节点（为-1）被取消或者中断时会通知后继节点，使后继节点的线程得以运行
 
 CONDITION :值为-2.当前节点处于等待队列，节点线程等待在Condition上，当其他线程对condition执行signall方法时，等待队列转移到同步队列，加入到对同步状态的获取
->>>>>>> 6597f94c8945c5169006f47163d9d4abcb8cf8de
 
 PROPAGATE：值为-3，与共享模式相关，在共享模式中，该状态标识结点的线程处于可运行状态
 
@@ -160,15 +149,8 @@ final boolean acquireQueued(final Node node, int arg) {
 ```
 private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
         int ws = pred.waitStatus;
-<<<<<<< HEAD
-        /* 有一个需要遵循的原则：只有前置节点状态为SIGNAL时，
-         * 即代表前置节点在被取消或者中断时会通知当前节点获取同步状态，
-         * 只有这种情况下当前节点才能放心的挂起
-         */
-=======
         //有一个需要遵循的原则，只有前置节点状态为SIGNAL时，代表前置节点在被取消或者中断时
         //会通知当前节点获取同步状态，只有这种情况下当前节点才能放心的挂起
->>>>>>> 6597f94c8945c5169006f47163d9d4abcb8cf8de
         if (ws == Node.SIGNAL)
             /*
              * 前置节点已经是SIGNAL，前置节点会在之后通知当前节点获取同步状态
